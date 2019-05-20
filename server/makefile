@@ -22,7 +22,7 @@ $(LINK_TARGET) : $(OBJS)
 	chmod 744 $(LINK_TARGET)
 
 %.o : %.cpp
-	g++ -g -o $@ -c $<
+	g++ -g -o $@ -c $< $(INC) $(LDIR) $(LIB)
 
 # Dependencies
 main.o : server.hpp raspiutilsobserver.hpp
