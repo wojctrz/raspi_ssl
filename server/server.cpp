@@ -21,11 +21,21 @@
     int Server::start()
     {
         init_openssl();
-        create_context();
+        if(!create_context())
+        {
+            perror("Error while creating context");
+            ERR_print_errors_fp(stderr);
+            exit(EXIT_FAILURE);
+        }
         configure_context();
-        create_socket();
+        if(!create_socket())
+        {
+            perror("Error while creating socket");
+            exit(EXIT_FAILURE);
+        }
         while(1)
         {
+            // wait and accept incoming connections
             struct sockaddr_in addr;
             uint len = sizeof(addr);
             SSL *ssl;
@@ -76,7 +86,7 @@
 
     }
 
-    int Server::create_socket()
+    bool Server::create_socket()
     {
         struct sockaddr_in addr;
 
@@ -88,20 +98,22 @@
         if (sock < 0)
         {
             perror("Unable to create socket");
-            exit(EXIT_FAILURE);
+            return false;
         }
 
         if (bind(sock, (struct sockaddr*)&addr, sizeof(addr)) < 0)
         {
             perror("Unable to bind");
-            exit(EXIT_FAILURE);
+            return false;
         }
 
         if (listen(sock, 1) < 0)
         {
             perror("Unable to listen");
-            exit(EXIT_FAILURE);
+            return false;
         }
+
+        return true;
     }
 
     void Server::init_openssl()
@@ -115,7 +127,7 @@
         EVP_cleanup();
     }
 
-    SSL_CTX* Server::create_context()
+    bool Server::create_context()
     {
         const SSL_METHOD *method;
 
@@ -124,24 +136,25 @@
         context = SSL_CTX_new(method);
         if (!context)
         {
-            perror("Unable to create SSL context");
-            ERR_print_errors_fp(stderr);
-            exit(EXIT_FAILURE);
+            // error occured
+            return false;
         }
 
+        return true;
     }
 
     void Server::configure_context()
     {
         SSL_CTX_set_ecdh_auto(context, 1);
 
-        /* Set the key and cert */
+        // set the certificate file
         if (SSL_CTX_use_certificate_file(context, "crypto/server.crt", SSL_FILETYPE_PEM) <= 0)
         {
             ERR_print_errors_fp(stderr);
             exit(EXIT_FAILURE);
         }
 
+        // set the key file
         if (SSL_CTX_use_PrivateKey_file(context, "crypto/private.pem", SSL_FILETYPE_PEM) <= 0 )
         {
             ERR_print_errors_fp(stderr);

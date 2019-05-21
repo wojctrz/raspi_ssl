@@ -14,4 +14,31 @@ void RaspiUtilsObserver::update(uint8_t buff[], int size)
         std::cout << static_cast<unsigned int>(buff[i]) << " ";
     }
     std::cout << std::endl;
+
+    led_flash(recv_buff[LED_BYTE]);
+}
+
+void RaspiUtilsObserver::led_flash(uint8_t mode)
+{
+    switch(mode)
+    {
+        // TODO: do real things, not only print you're doing this
+        case LED_OFF:
+            // LED off
+            std::cout << "Switching off my LED...\n";
+            break;
+        case LED_ON:
+            // LED on
+            std::cout << "Switching on my LED...\n";
+            break;
+        case LED_BLINK:
+            // LED blink
+            std::cout << "Blink that LED!\n";
+            break;
+        default:
+            // unsupported value
+            std::cout << "value unsupported :(\n";
+            break;
+
+    }
 }
