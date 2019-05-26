@@ -2,3 +2,5 @@
 *.crt
 *.pem
 .vscode/
+server/main
+
