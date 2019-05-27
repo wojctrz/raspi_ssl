@@ -1,5 +1,12 @@
 #include "raspiutilsobserver.hpp"
 
+RaspiUtilsObserver::RaspiUtilsObserver()
+{
+    // setup GPIOs
+    wiringPiSetup () ;
+    pinMode (LED_PIN, OUTPUT) ;
+}
+
 void RaspiUtilsObserver::update(uint8_t buff[], int size)
 {
     buff_size = size;
@@ -26,14 +33,12 @@ void RaspiUtilsObserver::led_flash(uint8_t mode)
         case LED_OFF:
             // LED off
             std::cout << "Switching off my LED...\n";
+            digitalWrite (LED_PIN, HIGH) ;
             break;
         case LED_ON:
             // LED on
             std::cout << "Switching on my LED...\n";
-            break;
-        case LED_BLINK:
-            // LED blink
-            std::cout << "Blink that LED!\n";
+            digitalWrite (LED_PIN, HIGH) ;
             break;
         default:
             // unsupported value

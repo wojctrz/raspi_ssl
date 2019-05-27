@@ -1,5 +1,5 @@
 LDIR=-L/usr/local/ssl/lib
-LIB=-lssl -lcrypto
+LIB=-lssl -lcrypto -lwiringPi
 INC=-I/usr/local/ssl/include
 
 LINK_TARGET = main

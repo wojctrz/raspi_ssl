@@ -3,16 +3,20 @@
 
 #define LED_BYTE 1
 
+#define LED_PIN 0
+
 #define LED_OFF 0
 #define LED_ON 1
-#define LED_BLINK 2
 
 #include "observer.hpp"
 #include <iostream>
+#include <wiringPi.h>   // for manipulating GPIOs
 
 class RaspiUtilsObserver : public Observer
 {
 public:
+
+    RaspiUtilsObserver();
 
     virtual void update(uint8_t buff[], int size);
 

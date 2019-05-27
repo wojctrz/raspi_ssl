@@ -41,4 +41,4 @@ print(send_buff)
 
 
 conn = SslConnection(args.ip_addr, args.port)
-print(conn.send_data(bytes([1,0,3,4])))
+print(conn.send_data(bytes(send_buff)))

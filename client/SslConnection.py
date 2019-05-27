@@ -15,7 +15,7 @@ class SslConnection(object):
     def send_data(self, data):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(10)
-        self.wrappedSocket = ssl.wrap_socket(sock, ssl_version=ssl.PROTOCOL_TLSv1)
+        self.wrappedSocket = ssl.wrap_socket(sock, ssl_version=ssl.PROTOCOL_TLSv1_2)
         self.wrappedSocket.connect((self.ip_addr, self.port))
         self.wrappedSocket.send(data)
         recv = self.wrappedSocket.recv(self.rx_len)
