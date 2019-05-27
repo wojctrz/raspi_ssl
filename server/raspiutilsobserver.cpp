@@ -33,7 +33,7 @@ void RaspiUtilsObserver::led_flash(uint8_t mode)
         case LED_OFF:
             // LED off
             std::cout << "Switching off my LED...\n";
-            digitalWrite (LED_PIN, HIGH) ;
+            digitalWrite (LED_PIN, LOW) ;
             break;
         case LED_ON:
             // LED on
