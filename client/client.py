@@ -28,12 +28,18 @@ parser.add_argument('--led', dest='led', nargs='?', type=str,
                     help='led', action='store', choices=['on', 'off', 'blink'],
                     default='off')
 
+parser.add_argument('--display', dest='disp', nargs='?', type=int, 
+                    help='number to be shown on the display',
+                    action='store',
+                    choices=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 21], default=0)
+
 args = parser.parse_args()
 
 send_buff = list()
 
 send_buff.append(get_header())
 send_buff.append(get_led_mode(args.led))
+send_buff.append(args.disp)
 
 print(send_buff)
 
